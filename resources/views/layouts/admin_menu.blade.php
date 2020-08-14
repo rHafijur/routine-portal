@@ -8,3 +8,9 @@
         <a class="dropdown-item" href="{{ route('all_teachers') }}">Teachers</a>    
     </div>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('semesters') }}">{{ __('Semesters') }}</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('courses') }}">{{ __('Courses') }}</a>
+</li>

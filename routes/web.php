@@ -27,3 +27,15 @@ Route::get('/users/teachers', 'TeacherController@index')->name('all_teachers');
 Route::get('/user/{id}/set_stat/{status}', 'UserController@setStat');
 Route::get('/add/teacher', 'TeacherController@add');
 Route::post('/add/teacher', 'TeacherController@register')->name('register_teacher');
+
+Route::get('/semesters', 'SemesterController@index')->name('semesters');
+Route::get('/add/semester', 'SemesterController@add');
+Route::post('/add/semester', 'SemesterController@save')->name('save_semester');
+Route::get('/semester/{id}/edit', 'SemesterController@edit');
+Route::post('/update/semester', 'SemesterController@update')->name('update_semester');
+
+Route::get('/courses', 'CourseController@index')->name('courses');
+Route::get('/add/course', 'CourseController@add');
+Route::post('/add/course', 'CourseController@save')->name('save_course');
+Route::get('/course/{id}/edit', 'CourseController@edit');
+Route::post('/update/course', 'CourseController@update')->name('update_course');
