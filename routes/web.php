@@ -20,3 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/users/students', 'StudentController@index')->name('all_students');
+Route::get('/users/teachers', 'TeacherController@index')->name('all_teachers');
+Route::get('/user/{id}/set_stat/{status}', 'UserController@setStat');
+Route::get('/add/teacher', 'TeacherController@add');
+Route::post('/add/teacher', 'TeacherController@register')->name('register_teacher');

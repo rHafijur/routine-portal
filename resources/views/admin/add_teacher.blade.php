@@ -5,18 +5,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header">{{ __('Register new Teacher') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register_teacher') }}">
                         @csrf
                         <div class="form-group row">
-                            <label for="student_id" class="col-md-4 col-form-label text-md-right">{{ __('Student ID') }}</label>
+                            <label for="employee_id" class="col-md-4 col-form-label text-md-right">{{ __('Employee ID') }}</label>
 
                             <div class="col-md-6">
-                                <input id="student_id" type="text" class="form-control @error('student_id') is-invalid @enderror" name="student_id" value="{{ old('student_id') }}" required autocomplete="student_id" autofocus>
+                                <input id="employee_id" type="text" class="form-control @error('employee_id') is-invalid @enderror" name="employee_id" value="{{ old('employee_id') }}" required autocomplete="employee_id" autofocus>
 
-                                @error('student_id')
+                                @error('employee_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -24,12 +24,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="batch" class="col-md-4 col-form-label text-md-right">{{ __('Batch') }}</label>
+                            <label for="initial" class="col-md-4 col-form-label text-md-right">{{ __('Initial') }}</label>
 
                             <div class="col-md-6">
-                                <input id="batch" type="text" class="form-control @error('batch') is-invalid @enderror" name="batch" value="{{ old('batch') }}" required autocomplete="batch" autofocus>
+                                <input id="initial" type="text" class="form-control @error('initial') is-invalid @enderror" name="initial" value="{{ old('initial') }}" required autocomplete="initial" autofocus>
 
-                                @error('batch')
+                                @error('initial')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

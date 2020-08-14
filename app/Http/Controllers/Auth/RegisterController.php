@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\Student;
+use App\Privilege;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -51,10 +53,13 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'max:255'],
+            'batch' => ['required', 'string', 'max:25'],
+            'student_id' => ['required', 'string', 'max:25'],
+            'email' => ['required', 'string', 'email', 'max:255', 'regex:/(.*)@diu\.edu\.bd/i', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
-    }
+    } 
 
     /**
      * Create a new user instance after a valid registration.
@@ -64,10 +69,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user= User::create([
             'name' => $data['name'],
+            'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        Student::create([
+            'user_id' => $user->id,
+            'student_id'=>$data['student_id'],
+            'batch'=>$data['batch'],
+        ]);
+        $user->privileges()->attach(3);
+        return $user;
     }
 }
