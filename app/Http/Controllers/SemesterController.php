@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Semester;
+use App\CourseTeacher;
 
 class SemesterController extends Controller
 {
@@ -39,5 +40,10 @@ class SemesterController extends Controller
         $semester->title=$request->title;
         $semester->save();
         return redirect()->route("semesters");
+    }
+    public function details($id){
+        $semester=Semester::find($id);
+        $courseTeachers=CourseTeacher::all();
+        return view('admin.semester_details',compact('semester','courseTeachers'));
     }
 }

@@ -27,8 +27,8 @@
                           <th scope="row">{{$semester->semester_code}}</th>
                           <td>{{$semester->title}}</td>
                           <td>
+                              <a href="{{url("semester/".$semester->id)}}"><button class="btn btn-sm btn-info">Details</button></a>
                               <a href="{{url("semester/".$semester->id."/edit")}}"><button class="btn btn-sm btn-danger">Edit</button></a>
-                              
                           </td>
                         </tr>
                         @endforeach
