@@ -40,9 +40,25 @@
                             <label for="total_credits" class="col-md-4 col-form-label text-md-right">{{ __('Total credits') }}</label>
 
                             <div class="col-md-6">
-                                <input id="total_credits" type="number" class="form-control @error('total_credits') is-invalid @enderror" name="total_credits" value="{{ old('total_credits') }}" required autocomplete="total_credits" autofocus>
+                                <input id="total_credits" type="number" value="3" class="form-control @error('total_credits') is-invalid @enderror" name="total_credits" value="{{ old('total_credits') }}" required autocomplete="total_credits" autofocus>
 
                                 @error('total_credits')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="level" class="col-md-4 col-form-label text-md-right">{{ __('Level') }}</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="level_id" id="level">
+                                    <option value="">Select</option>
+                                    @foreach (App\Level::orderBy('id','asc')->get() as $level)
+                                    <option value="{{$level->id}}">{{$level->title}}</option>
+                                    @endforeach
+                                </select>
+                                @error('level_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -84,8 +100,8 @@
 
                             <div class="col-md-6">
                                 <select class="form-control" name="has_lab" id="has_lab">
-                                    <option value="1">Yes</option>
                                     <option value="0">No</option>
+                                    <option value="1">Yes</option>
                                 </select>
                                 @error('has_lab')
                                     <span class="invalid-feedback" role="alert">

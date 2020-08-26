@@ -27,6 +27,7 @@
                           <th scope="col">Course code</th>
                           <th scope="col">Title</th>
                           <th scope="col">Total credits</th>
+                          <th scope="col">Level</th>
                           <th scope="col">Mid</th>
                           <th scope="col">Final</th>
                           <th scope="col">Lab</th>
@@ -39,6 +40,7 @@
                           <th scope="row">{{$course->course_code}}</th>
                           <td>{{$course->title}}</td>
                           <td>{{$course->total_credits}}</td>
+                          <td>{{$course->level->title}}</td>
                           <td>{{yesOrNo($course->has_mid)}}</td>
                           <td>{{yesOrNo($course->has_final)}}</td>
                           <td>{{yesOrNo($course->has_lab)}}</td>

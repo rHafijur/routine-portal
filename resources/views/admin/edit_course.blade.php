@@ -51,6 +51,22 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="level" class="col-md-4 col-form-label text-md-right">{{ __('Level') }}</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="level_id" id="level">
+                                    <option value="">Select</option>
+                                    @foreach (App\Level::orderBy('id','asc')->get() as $level)
+                                    <option value="{{$level->id}}" @if($course->level_id==$level->id) selected @endif>{{$level->title}}</option>
+                                    @endforeach
+                                </select>
+                                @error('level_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="has_mid" class="col-md-4 col-form-label text-md-right">{{ __('Has mid') }}</label>
 
                             <div class="col-md-6">

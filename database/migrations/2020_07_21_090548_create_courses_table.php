@@ -17,6 +17,8 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string("course_code");
             $table->string("title");
+            $table->unsignedBigInteger('level_id');
+            $table->foreign('level_id')->references('id')->on('levels');
             $table->integer("total_credits");
             $table->boolean("has_mid")->default(1);
             $table->boolean("has_final")->default(1);
