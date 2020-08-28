@@ -14,3 +14,6 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('courses') }}">{{ __('Courses') }}</a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('generate_routine') }}">{{ __('Generate Routne') }}</a>
+</li>
