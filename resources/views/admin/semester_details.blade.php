@@ -8,6 +8,7 @@
                 <div class="card-header">
                     <span style="font-size:20px">{{$semester->title."-".$semester->semester_code}}</span>
                     <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add course teacher</button>
+                    <a href="{{url("generate_routine/?semester=".$semester->semester_code)}}"><button class="btn btn-sm btn-success">Generate Routine</button></a>
                 </div>
 
                 <div class="card-body">

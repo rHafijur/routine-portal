@@ -29,7 +29,32 @@
     </div>
 </div>
 <!-- Button trigger modal -->
-  
+<datalist id="slot_list">
+    <option value="A">
+    <option value="B">
+    <option value="C">
+    <option value="D">
+</datalist>
+<datalist id="time_list">
+    <option value="8:30 AM">
+    <option value="9:00 AM">
+    <option value="9:30 AM">
+    <option value="10:00 AM">
+    <option value="10:30 AM">
+    <option value="11:00 AM">
+    <option value="11:30 AM">
+    <option value="12:00 PM">
+    <option value="12:30 PM">
+    <option value="01:00 PM">
+    <option value="01:30 PM">
+    <option value="02:00 PM">
+    <option value="02:30 PM">
+    <option value="03:00 PM">
+    <option value="03:30 PM">
+    <option value="04:00 PM">
+    <option value="04:30 PM">
+    <option value="05:00 PM">
+</datalist>
   <!-- Modal -->
   <div class="modal fade" id="addSlotModal" tabindex="-1" role="dialog" aria-labelledby="addSlotModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -43,15 +68,15 @@
         <div class="modal-body">
             <div class="form-group">
                 <label for="slot_name">Slot name</label>
-                <input type="text" class="form-control" id="slot_name" aria-describedby="emailHelp" placeholder="Ex: Slot A">
+                <input list="slot_list" class="form-control" id="slot_name" aria-describedby="emailHelp">
             </div>
             <div class="form-group">
                 <label for="slot_starts">Starts</label>
-                <input type="time" class="form-control" id="slot_starts">
+                <input list="time_list" class="form-control" id="slot_starts">
             </div>
             <div class="form-group">
                 <label for="slot_ends">Ends</label>
-                <input type="time" class="form-control" id="slot_ends">
+                <input list="time_list" class="form-control" id="slot_ends">
             </div>
             <div class="form-group">
                 <label for="slot_ends">Courses <small>(You can selcet multiple courses)</small></label>
@@ -83,15 +108,15 @@
         <div class="modal-body">
             <div class="form-group">
                 <label for="slot_name">Slot name</label>
-                <input type="text" class="form-control" id="edit_slot_name" aria-describedby="emailHelp" placeholder="Ex: Slot A">
+                <input list="slot_list" class="form-control" id="edit_slot_name" aria-describedby="emailHelp">
             </div>
             <div class="form-group">
                 <label for="slot_starts">Starts</label>
-                <input type="time" class="form-control" id="edit_slot_starts">
+                <input list="time_list" class="form-control" id="edit_slot_starts">
             </div>
             <div class="form-group">
                 <label for="slot_ends">Ends</label>
-                <input type="time" class="form-control" id="edit_slot_ends">
+                <input list="time_list" class="form-control" id="edit_slot_ends">
             </div>
             <div class="form-group">
                 <label for="slot_ends">Courses <small>(You can selcet multiple courses)</small></label>
@@ -115,14 +140,18 @@
 
 <script>
     var courses=`{!!json_encode(App\Course::all())!!}`;
+    var student_per_course=`{!!json_encode($student_per_course)!!}`;
+    var teacher_per_course=`{!!json_encode($teacher_per_course)!!}`;
     courses=JSON.parse(courses);
+    student_per_course=JSON.parse(student_per_course);
+    teacher_per_course=JSON.parse(teacher_per_course);
     var routine_row;
     var edit_slot;
     function addDay(){
         $("#routineRows").append(`
         <div class="row border routine_row">
             <div class="col-md-2">
-                <input class="form-control" type="date">
+                <input class="form-control routine_date" type="date">
             </div>
             <div class="time_slots col row">
                 
@@ -156,6 +185,7 @@
        var slot_courses=$("#slot_courses");
        var course_arr=getCourses(slot_courses.val());
        var course_list_html="";
+       var total_students=0;
        var obj={
            "name":slot_name.val(),
            "starts":slot_starts.val(),
@@ -163,13 +193,16 @@
            "courses":slot_courses.val(),
        };
        for(course of course_arr){
-        course_list_html+=`<li class="list-group-item">`+course["course_code"]+` - `+course["title"]+`</li>`;
+           var st_count=getNumberOfStudentPerCourse(course["id"]);
+           total_students+=parseInt(st_count);
+        course_list_html+=`<li class="list-group-item">`+course["course_code"]+` - `+course["title"]+` `+getCourseTeachers(course["id"])+` -`+st_count+`</li>`;
        }
     //    console.log(course_list_html);
        $(slots).append(`
        <div class="card col time_slot" data-slot='`+JSON.stringify(obj)+`'>
             <div class="card-header">
-                <b>`+slot_name.val()+`</b> <b>`+slot_starts.val()+`-`+slot_ends.val()+`</b> 
+                <b>Slot`+slot_name.val()+`</b> <b>`+slot_starts.val()+`-`+slot_ends.val()+`</b> <br>
+                <small>total student <b>`+total_students+`</b></small>
                 <button type="button" class="close" onclick='$(this).closest(".time_slot").remove()' aria-label="Close">
                     <span aria-hidden="true"><i class="fas fa-minus-circle"></i></span>
                 </button>
@@ -197,6 +230,7 @@
        var slot_courses=$("#edit_slot_courses");
        var course_arr=getCourses(slot_courses.val());
        var course_list_html="";
+       var total_students=0;
        var obj={
            "name":slot_name.val(),
            "starts":slot_starts.val(),
@@ -204,13 +238,16 @@
            "courses":slot_courses.val(),
        };
        for(course of course_arr){
-        course_list_html+=`<li class="list-group-item">`+course["course_code"]+` - `+course["title"]+`</li>`;
+        var st_count=getNumberOfStudentPerCourse(course["id"]);
+        total_students+=parseInt(st_count);
+        course_list_html+=`<li class="list-group-item">`+course["course_code"]+` - `+course["title"]+` `+getCourseTeachers(course["id"])+` -`+st_count+`</li>`;
        }
     //    console.log(course_list_html);
     //    $(editSlot).empty();
        $(edit_slot).html(`
             <div class="card-header">
-                <b>`+slot_name.val()+`</b> <b>`+slot_starts.val()+`-`+slot_ends.val()+`</b> 
+                <b>Slot `+slot_name.val()+`</b> <b>`+slot_starts.val()+`-`+slot_ends.val()+`</b><br>
+                <small>total student <b>`+total_students+`</b></small>
                 <button type="button" class="close" onclick='$(this).closest(".time_slot").remove()' aria-label="Close">
                     <span aria-hidden="true"><i class="fas fa-minus-circle"></i></span>
                 </button>
@@ -242,6 +279,43 @@
             }
         }
         return arr;
+    }
+    function getCourseTeachers(id){
+        var initials="(";
+        for(c of teacher_per_course){
+            if(c['course_id']==id){
+                initials+=c['initial']+",";
+            }
+        }
+        initials+=")";
+        initials=initials.replace(",)",")");
+        return initials.toUpperCase();
+    }
+    function getNumberOfStudentPerCourse(id){
+        var count=0;
+        for(c of student_per_course){
+            if(c['course_id']==id){
+                count=c["student_count"];
+            }
+        }
+        return count;
+    }
+    function routineJSON(){
+        var routine=[];
+        var routine_rows= $(".routine_row");
+        for(routine_row of routine_rows){
+            var routine_date=$($(routine_row).find(".routine_date")[0]).val();
+            var sls=$(routine_row).find(".time_slot");
+            var slot_data_array=[];
+            for(sl of sls){
+                slot_data_array.push($(sl).data("slot"));
+            }
+            routine.push({
+                "date":routine_date,
+                "slots":slot_data_array
+            });
+        }
+        return routine;
     }
 </script>
 @endsection
