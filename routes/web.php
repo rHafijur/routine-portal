@@ -46,3 +46,7 @@ Route::post('/update/course-teacher', 'CourseTeacherController@update')->name('u
 Route::get('/delete/course-teacher/{id}', 'CourseTeacherController@delete')->name('delete_course_teacher');
 
 Route::get('/generate_routine', 'RoutineController@generate')->name('generate_routine');
+Route::post('/save_routine', 'RoutineController@save')->name('save_routine');
+
+
+Route::get('/routine', 'RoutineController@view');

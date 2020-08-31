@@ -8,8 +8,17 @@
                 <div class="card-header">
                     <span style="font-size:20px">{{$semester->title."-".$semester->semester_code}}</span>
                     <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add course teacher</button>
-                    <a href="{{url("generate_routine/?semester=".$semester->semester_code)}}"><button class="btn btn-sm btn-success">Generate Routine</button></a>
-                </div>
+                    @if (count(App\Routine::where('semester_id',$semester->id)->where('term','mid')->get())>0)
+                    <a href="{{url("routine/?semester=".$semester->semester_code."&term=mid")}}"><button class="btn btn-sm btn-info">View Routine (Mid Term)</button></a>
+                    @else
+                    <a href="{{url("generate_routine/?semester=".$semester->semester_code."&term=mid")}}"><button class="btn btn-sm btn-success">Generate Routine (Mid Term)</button></a>
+                    @endif
+                    @if (count(App\Routine::where('semester_id',$semester->id)->where('term','final')->get())>0)
+                    <a href="{{url("routine/?semester=".$semester->semester_code."&term=final")}}"><button class="btn btn-sm btn-info">View Routine (Final)</button></a>
+                    @else
+                    <a href="{{url("generate_routine/?semester=".$semester->semester_code."&term=final")}}"><button class="btn btn-sm btn-success">Generate Routine (Final)</button></a>
+                    @endif
+                  </div>
 
                 <div class="card-body">
                   <table class="table">

@@ -6,8 +6,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                  {{ __("Generate Routine") }}
-                  
+                  {{ __("Generate Routine (".strtoupper($term).")") }}
+                  <button class="btn btn-primary float-right" onclick="save()">Save and Publish</button>
                 </div>
                 
                 <div class="card-body">
@@ -29,6 +29,12 @@
     </div>
 </div>
 <!-- Button trigger modal -->
+<form action="{{route('save_routine')}}" method="POST" id="saveForm">
+    @csrf
+    <input type="hidden" id="save_term" name="term" value="{{$term}}">
+    <input type="hidden" id="save_semester_id" name="semester_id" value="{{$semester->id}}">
+    <input type="hidden" id="save_data" name="data" >
+</form>
 <datalist id="slot_list">
     <option value="A">
     <option value="B">
@@ -315,7 +321,11 @@
                 "slots":slot_data_array
             });
         }
-        return routine;
+        return JSON.stringify(routine);
+    }
+    function save(){
+        $("#save_data").val(routineJSON());
+        $("#saveForm").submit();
     }
 </script>
 @endsection
