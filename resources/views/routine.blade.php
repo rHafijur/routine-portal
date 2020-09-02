@@ -5,7 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __("Routine: ".$semester->title." ".strtoupper($routine->term)) }}</div>
+                <div class="card-header">
+                    {{ __("Routine: ".$semester->title." ".strtoupper($routine->term)) }}
+                    <div class="float-right">
+                        <a href="{{url('edit_routine/?semester='.$semester->semester_code."&term=".$routine->term)}}"><button class="btn btn-info">Edit</button></a>
+                    </div>
+                </div>
 
                 <div class="card-body">
                     <div class="row justify-content-md-center">

@@ -20,6 +20,18 @@ class RoutineController extends Controller
         // dd($teacher_per_course);
         return view("admin.generate_routine",compact('student_per_course','teacher_per_course','semester','term'));
     }
+    public function edit(){
+        $semester=Semester::where("semester_code",request()->semester)->get()[0];
+        $semester_id=$semester->id;
+        $term=request()->term;
+        // $course_teacher=CourseTeacher::where("semester_id",)->get();
+        $routine= Routine::where("semester_id",$semester->id)->where('term',$term)->first();
+        $student_per_course=DB::table("course_teachers")->select(DB::raw('sum(number_of_students) as student_count, course_id'))->where('semester_id', '=', $semester_id)->groupBy('course_id')->get();
+        $teacher_per_course=DB::table("course_teachers")->join("teachers","course_teachers.teacher_id","teachers.id")
+        ->select(DB::raw('course_id,teachers.initial'))->where('semester_id', '=', $semester_id)->get();
+        // dd($teacher_per_course);
+        return view("admin.edit_routine",compact('student_per_course','teacher_per_course','semester','term','routine'));
+    }
     public function save(Request $request){
         // dd($request);
         Routine::create([
@@ -28,6 +40,13 @@ class RoutineController extends Controller
             'semester_id'=>$request->semester_id,
         ]);
         return redirect('semester/'.$request->semester_id);
+    }
+    public function update(Request $request){
+        // dd($request);
+        $routine=Routine::find($request->id);
+        $routine->data=$request->data;
+        $routine->save();
+        return redirect('routine/?semester='.$routine->semester->semester_code."&term=".$request->term);
     }
     public function view(){
         $semester=Semester::where("semester_code",request()->semester)->get()[0];
