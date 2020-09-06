@@ -15,8 +15,8 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <th scope="col">ID</th>
-                          <th scope="col">Date</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Views</th>
                           <th scope="col">Subject</th>
                           <th scope="col">Action</th>
                         </tr>
@@ -24,12 +24,13 @@
                       <tbody>
                         @foreach ($notices as $notice)
                         <tr>
-                          <th scope="row">{{$notice->id}}</th>
-                          <th scope="row">{{Carbon\Carbon::parse($notice->created_at)->toFormattedDateString()}}</th>
+                            <th scope="row">{{Carbon\Carbon::parse($notice->created_at)->toFormattedDateString()}}</th>
+                            <th scope="row">{{$notice->views}}</th>
                           <td>{{$notice->subject}}</td>
                           <td>
                               <a href="{{url("notice/".$notice->id."")}}"><button class="btn btn-sm btn-info">Details</button></a>
-                              <a href="{{url("notice/".$notice->id."/edit")}}"><button class="btn btn-sm btn-danger">Edit</button></a>
+                              <a href="{{url("notice/".$notice->id."/edit")}}"><button class="btn btn-sm btn-warning">Edit</button></a>
+                              <a href="{{url("notice/".$notice->id."/delete")}}"><button class="btn btn-sm btn-danger">delete</button></a>
                           </td>
                         </tr>
                         @endforeach

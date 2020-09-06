@@ -41,11 +41,15 @@ Route::post('/add/course', 'CourseController@save')->name('save_course');
 Route::get('/course/{id}/edit', 'CourseController@edit');
 Route::post('/update/course', 'CourseController@update')->name('update_course');
 
+//public
 Route::get('/notices', 'NoticeController@index')->name('notices');
+Route::get('/notice/{id}', 'NoticeController@details');
+
 Route::get('/add/notice', 'NoticeController@add');
 Route::post('/add/notice', 'NoticeController@save')->name('save_notice');
 Route::get('/notice/{id}/edit', 'NoticeController@edit');
 Route::post('/update/notice', 'NoticeController@update')->name('update_notice');
+Route::get('/notice/{id}/delete', 'NoticeController@delete');
 
 Route::post('/add/course-teacher', 'CourseTeacherController@save')->name('add_course_teacher');
 Route::post('/update/course-teacher', 'CourseTeacherController@update')->name('update_course_teacher');

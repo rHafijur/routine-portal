@@ -10,6 +10,12 @@ class NoticeController extends Controller
         $notices=Notice::all();
         return view('notice',compact('notices'));
     }
+    public function details($id){
+        $notice=Notice::find($id);
+        $notice->views++;
+        $notice->save();
+        return view('notice_details',compact('notice'));
+    }
     public function add(){
         return view("admin.add_notice");
     }
@@ -24,12 +30,32 @@ class NoticeController extends Controller
             'subject'=>$request->subject,
             'file_path'=>\json_encode($paths),
         ]);
+        return redirect("notices");
     }
-    public function edit(){
-
+    public function edit($id){
+        $notice=Notice::find($id);
+        return view('admin.edit_notice',compact('notice'));
     }
     public function update(Request $request){
-
+        // dd($request->paths);
+        $paths=[];
+        if($request->paths!=null){
+            $paths=$request->paths;
+        }
+        if($request->documents!=null){
+            foreach($request->documents as $document){
+                $paths[]= $document->store('notices','public');
+            }
+        }
+        $notice=Notice::find($request->id);
+        $notice->subject=$request->subject;
+        $notice->file_path=\json_encode($paths);
+        $notice->save();
+        return redirect("notices");
+    }
+    public function delete($id){
+        Notice::find($id)->delete();
+        return redirect()->back();
     }
     
 }
