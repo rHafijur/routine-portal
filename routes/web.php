@@ -61,4 +61,9 @@ Route::post('/save_routine', 'RoutineController@save')->name('save_routine');
 Route::post('/update_routine', 'RoutineController@update')->name('update_routine');
 
 
+//student
+Route::get('/add_overlap_application', 'OverlapApplicationController@add')->name('add_overlap_application');
+Route::post('/save_overlap_application', 'OverlapApplicationController@save')->name('save_overlap_application');
+
+
 Route::get('/routine', 'RoutineController@view');
