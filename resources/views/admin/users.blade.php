@@ -76,6 +76,11 @@
                               @else
                               <a href="{{url("user/".$teacher->user->id."/set_stat/1")}}"><button class="btn btn-sm btn-info">Acctivate</button></a>
                               @endif
+                              @if ($teacher->user->isAdmin())
+                              <a href="{{url("/user/toggol_admin/".$teacher->user->id)}}"><button class="btn btn-sm btn-danger">Remove Admin</button></a>
+                              @else
+                              <a href="{{url("/user/toggol_admin/".$teacher->user->id)}}"><button class="btn btn-sm btn-info">Make Admin</button></a>
+                              @endif
                           </td>
                         </tr>
                         @endforeach

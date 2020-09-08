@@ -35,7 +35,7 @@
                                                     <span aria-hidden="true"><i class="fas fa-edit"></i></span>
                                                 </button>
                                             </div>
-                                            <div class="card-body" >
+                                            <div class="card-body" style="padding: 0">
                                                 <ul class="list-group">
                                                     @php
                                                         $inc2=0;
@@ -44,7 +44,7 @@
                                                     @php
                                                         $course=App\Course::find($course);
                                                     @endphp
-                                                    <li class="list-group-item">{{$course->course_code}} - {{$course->title}} <span id="ct-{{$inc2}}"></span> - <span id="stc-{{$inc2}}"></span></li>`
+                                                    <li class="list-group-item">{{$course->course_code}} - {{$course->title}} <span id="ct-{{$inc2}}"></span> - <span id="stc-{{$inc2}}"></span></li>
                                                     <script>
                                                         $(function(){
                                                             $("#ct-{{$inc2}}").html(getCourseTeachers({{$course->id}}));
@@ -276,7 +276,7 @@
                     <span aria-hidden="true"><i class="fas fa-edit"></i></span>
                 </button>
             </div>
-            <div class="card-body" >
+            <div class="card-body" style="padding: 0">
                 <ul class="list-group">
                     `+course_list_html+`
                 </ul>

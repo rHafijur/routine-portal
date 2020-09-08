@@ -1,6 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    @media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable, #printable * {
+    visibility: visible;
+  }
+  #printable {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+</style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -8,24 +23,38 @@
                 <div class="card-header">
                     {{ __("Routine: ".$semester->title." ".strtoupper($routine->term)) }}
                     @auth
-                    @if (auth()->admin()->isAdmin())
+                    @if (auth()->user()->isAdmin())
                     <div class="float-right">
                         <a href="{{url('edit_routine/?semester='.$semester->semester_code."&term=".$routine->term)}}"><button class="btn btn-info">Edit</button></a>
                     </div>
                     @endif
                     @endauth
                 </div>
-
-                <div class="card-body">
+                <div class="card-body" id="printable">
                     <div class="row justify-content-md-center">
                         <div class="col">
+                            <div class="d-flex justify-content-center" style="text-align: center">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img height="110px" width="100px" src="{{asset('assets/images/logo.png')}}" alt="DIU logo" margin="0 -10px 20px 0">
+                                    </div>
+                                   <div class="col-md-9">
+                                    Daffodil International University <br>
+                                    Department of software Engineering (SWE) <br>
+                                    Faculty of Science & Information Technology (FSIT)
+                                   </div>
+                                </div>
+                            </div>
                             @foreach (json_decode($routine->data) as $day)
                             {{-- @php
                                 dd($day);
                             @endphp --}}
                             <div class="row border routine_row">
                                 <div class="col-md-2">
-                                    {{$day->date}}
+                                    <div class="align-middle">
+                                        {{Carbon\Carbon::parse($day->date)->toFormattedDateString()}} <br>
+                                        {{Carbon\Carbon::parse($day->date)->englishDayOfWeek}}
+                                    </div>
                                 </div>
                                 <div class="time_slots col row">
                                     @foreach ($day->slots as $slot)
@@ -34,7 +63,7 @@
                                             <b>Slot {{$slot->name}}</b> <b>{{$slot->starts}} - {{$slot->ends}}</b> <br>
                                             {{-- <small>total student <b>`+total_students+`</b></small> --}}
                                         </div>
-                                        <div class="card-body" >
+                                        <div class="card-body" style="padding: 0">
                                             <ul class="list-group">
                                                 @foreach ($slot->courses as $course)
                                                     @php
