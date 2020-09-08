@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+  $isAdmin=false;
+    if(auth()->check()){
+      $isAdmin=auth()->user()->isAdmin();
+    }
+@endphp
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -8,7 +14,9 @@
                 <div class="card-header">
                   {{ __("Notices") }}
                   <a href="{{url("add/notice")}}">
+                    @if ($isAdmin)
                     <button class="btn btn-sm btn-secondary">Add</button>
+                    @endif
                   </a>
                 </div>
                 <div class="card-body">
@@ -29,8 +37,10 @@
                           <td>{{$notice->subject}}</td>
                           <td>
                               <a href="{{url("notice/".$notice->id."")}}"><button class="btn btn-sm btn-info">Details</button></a>
+                              @if ($isAdmin)
                               <a href="{{url("notice/".$notice->id."/edit")}}"><button class="btn btn-sm btn-warning">Edit</button></a>
                               <a href="{{url("notice/".$notice->id."/delete")}}"><button class="btn btn-sm btn-danger">delete</button></a>
+                              @endif
                           </td>
                         </tr>
                         @endforeach

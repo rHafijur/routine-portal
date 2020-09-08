@@ -48,4 +48,28 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Privilege','privilege_users');
     }
+    public function isAdmin(){
+        foreach($this->privileges as $privilege){
+            if($privilege->id==1){
+                return true;
+            }
+        }
+        return false;
+    }
+    public function isTeacher(){
+        foreach($this->privileges as $privilege){
+            if($privilege->id==2){
+                return true;
+            }
+        }
+        return false;
+    }
+    public function isStudent(){
+        foreach($this->privileges as $privilege){
+            if($privilege->id==3){
+                return true;
+            }
+        }
+        return false;
+    }
 }

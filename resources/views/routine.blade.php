@@ -7,9 +7,13 @@
             <div class="card">
                 <div class="card-header">
                     {{ __("Routine: ".$semester->title." ".strtoupper($routine->term)) }}
+                    @auth
+                    @if (auth()->admin()->isAdmin())
                     <div class="float-right">
                         <a href="{{url('edit_routine/?semester='.$semester->semester_code."&term=".$routine->term)}}"><button class="btn btn-info">Edit</button></a>
                     </div>
+                    @endif
+                    @endauth
                 </div>
 
                 <div class="card-body">

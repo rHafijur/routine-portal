@@ -27,7 +27,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'DIU Routine Portal') }}
+                    SWE Exam Routine Portal
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,22 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @include('layouts.admin_menu')
+                        @auth
+                        @if (auth()->user()->isAdmin())
+                            @include('layouts.admin_menu')
+                        @endif
+                        @if (auth()->user()->isStudent())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('add_overlap_application') }}">{{ __('Apply for Overlap Exam') }}</a>
+                        </li>
+                        @endif
+                        @endauth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('notices') }}">{{ __('Notices') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#routineSelectionModal">{{ __('Routines') }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -82,5 +97,43 @@
             @yield('content')
         </main>
     </div>
+    <!-- Routine Modal -->
+<div class="modal fade" id="routineSelectionModal" tabindex="-1" aria-labelledby="routineSelectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="GET" action="{{url("routine")}}">
+        <div class="modal-header">
+          <h5 class="modal-title" id="routineSelectionModalLabel">Please choice Semester and Term</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <div class="row">
+                  <div class="col">
+                    <select name="semester" class="form-control">
+                        <option value="">Select Semester</option>
+                        @foreach (App\Semester::all() as $semester)
+                            <option value="{{$semester->semester_code}}">{{$semester->title}}</option>
+                        @endforeach
+                    </select>
+                  </div>
+                  <div class="col">
+                    <select name="term" class="form-control">
+                        <option value="">Select Term</option>
+                        <option value="mid">Mid Term</option>
+                        <option value="final">Final</option>
+                    </select>
+                  </div>
+                </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">View Routine</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
