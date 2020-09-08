@@ -40,6 +40,10 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Student');
     }
+    public function notification()
+    {
+        return $this->hasMany('App\Notification');
+    }
     public function privileges()
     {
         return $this->belongsToMany('App\Privilege','privilege_users');

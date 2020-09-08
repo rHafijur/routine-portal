@@ -66,4 +66,8 @@ Route::get('/add_overlap_application', 'OverlapApplicationController@add')->name
 Route::post('/save_overlap_application', 'OverlapApplicationController@save')->name('save_overlap_application');
 
 
+Route::get('/overlap_application/{id}', 'OverlapApplicationController@view');
+
+
 Route::get('/routine', 'RoutineController@view');
+Route::get('/notifications', 'NotificationController@index');
