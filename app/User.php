@@ -40,6 +40,10 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Student');
     }
+    public function teacher()
+    {
+        return $this->hasOne('App\Teacher');
+    }
     public function notification()
     {
         return $this->hasMany('App\Notification');

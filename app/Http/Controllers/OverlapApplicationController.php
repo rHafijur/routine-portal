@@ -52,34 +52,34 @@ class OverlapApplicationController extends Controller
             $ct1=CourseTeacher::where('semester_id',$request->semester)->where('course_id',$c1)->get();
             $ct2=CourseTeacher::where('semester_id',$request->semester)->where('course_id',$c2)->get();
             foreach($ct1 as $teacher){
-                if(!in_array($teacher->user->id,$notificationTo)){
+                $id=$teacher->teacher->user->id;
+                if(!in_array($id,$notificationTo)){
                     // \dump($teacher->teacher->user->id);
-                    $id=$teacher->teacher->user->id;
                     Notification::create([
                         'user_id'=>$id,
                         'type'=>'OVERLAP_APPLICATION',
                         'link'=>'overlap_application/'.$applicationId,
                         'subject'=>$name." has applied for overlap exam"
                     ]);
-                    $notificationTo[]=$teacher->user->id;
+                    $notificationTo[]=$id;
                 }
             }
             foreach($ct2 as $teacher){
-                if(!in_array($teacher->user->id,$notificationTo)){
+                $id=$teacher->teacher->user->id;
+                if(!in_array($id,$notificationTo)){
                     // \dump($teacher->teacher->user->id);
-                    $id=$teacher->teacher->user->id;
                     Notification::create([
                         'user_id'=>$id,
                         'type'=>'OVERLAP_APPLICATION',
                         'link'=>'overlap_application/'.$applicationId,
                         'subject'=>$name." has applied for overlap exam"
                     ]);
-                    $notificationTo[]=$teacher->user->id;
+                    $notificationTo[]=$id;
                 }
             }
         }
         foreach(Privilege::find(1)->users as $user){
-            if(!in_array($teacher->user->id,$notificationTo)){
+            if(!in_array($user->teacher->id,$notificationTo)){
                 Notification::create([
                     'user_id'=>$user->id,
                     'type'=>'OVERLAP_APPLICATION',
