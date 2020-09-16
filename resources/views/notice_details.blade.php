@@ -14,11 +14,11 @@
                 </div>
                 <div class="card-body">
                     @foreach (json_decode($notice->file_path) as $path)
-                        @if (strpos($path, '.pdf') !== false)
-                        <iframe src = "/ViewerJS/#..{{Storage::url($path)}}" width='600' height='400' allowfullscreen webkitallowfullscreen></iframe>
+                    {{-- <iframe src = "/ViewerJS/#..{{asset(Storage::url($path))}}" width='600' height='400' allowfullscreen webkitallowfullscreen></iframe> --}}
+                    <a href="{{asset(Storage::url($path))}}">{{Storage::url($path)}}</a> <br>
+                        {{-- @if (strpos($path, '.pdf') !== false)
                         @else
-                        <a href="{{Storage::url($path)}}">{{Storage::url($path)}}</a> <br>
-                        @endif
+                        @endif --}}
                     @endforeach
                 </div>
             </div>
