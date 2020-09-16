@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\CourseTeacher;
 use App\Semester;
 use App\Routine;
+use App\Course;
 use DB as DB;
 class RoutineController extends Controller
 {
     public function generate(){
+        $courses=Course::all();
         $semester=Semester::where("semester_code",request()->semester)->get()[0];
         $semester_id=$semester->id;
         $term=request()->term;
@@ -18,9 +20,10 @@ class RoutineController extends Controller
         $teacher_per_course=DB::table("course_teachers")->join("teachers","course_teachers.teacher_id","teachers.id")
         ->select(DB::raw('course_id,teachers.initial'))->where('semester_id', '=', $semester_id)->get();
         // dd($teacher_per_course);
-        return view("admin.generate_routine",compact('student_per_course','teacher_per_course','semester','term'));
+        return view("admin.generate_routine",compact('student_per_course','teacher_per_course','semester','term','courses'));
     }
     public function edit(){
+        $courses=Course::all();
         $semester=Semester::where("semester_code",request()->semester)->get()[0];
         $semester_id=$semester->id;
         $term=request()->term;
@@ -30,7 +33,7 @@ class RoutineController extends Controller
         $teacher_per_course=DB::table("course_teachers")->join("teachers","course_teachers.teacher_id","teachers.id")
         ->select(DB::raw('course_id,teachers.initial'))->where('semester_id', '=', $semester_id)->get();
         // dd($teacher_per_course);
-        return view("admin.edit_routine",compact('student_per_course','teacher_per_course','semester','term','routine'));
+        return view("admin.edit_routine",compact('student_per_course','teacher_per_course','semester','term','routine','courses'));
     }
     public function save(Request $request){
         // dd($request);

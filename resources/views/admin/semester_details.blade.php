@@ -33,8 +33,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach ($courseTeachers as $courseTeacher)
-                      <tr>
+                      @foreach ($semester->courseTeachers as $courseTeacher)
+                      <tr style="background-color:{{$courseTeacher->course->level->color}};">
                         <th scope="row">{{$courseTeacher->course->course_code."-".$courseTeacher->course->title}}</th>
                         <td>{{$courseTeacher->teacher->initial." - ".$courseTeacher->teacher->user->name}}</td>
                         <td>{{$courseTeacher->semester->title}}</td>

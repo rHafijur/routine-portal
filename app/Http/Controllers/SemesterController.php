@@ -43,7 +43,6 @@ class SemesterController extends Controller
     }
     public function details($id){
         $semester=Semester::find($id);
-        $courseTeachers=CourseTeacher::all();
-        return view('admin.semester_details',compact('semester','courseTeachers'));
+        return view('admin.semester_details',compact('semester'));
     }
 }

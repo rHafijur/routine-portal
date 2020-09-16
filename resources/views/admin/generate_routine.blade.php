@@ -87,8 +87,8 @@
             <div class="form-group">
                 <label for="slot_ends">Courses <small>(You can selcet multiple courses)</small></label>
                 <select class="form-control" id="slot_courses" multiple>
-                    @foreach (App\Course::all() as $course)
-                        <option value="{{$course->id}}">{{$course->title}}</option>
+                    @foreach ($courses as $course)
+                        <option style="background-color:{{$course->level->color}};color:white;" value="{{$course->id}}">{{$course->title}}</option>
                     @endforeach
                 </select>
             </div>
@@ -127,8 +127,8 @@
             <div class="form-group">
                 <label for="slot_ends">Courses <small>(You can selcet multiple courses)</small></label>
                 <select class="form-control" id="edit_slot_courses" multiple>
-                    @foreach (App\Course::all() as $course)
-                        <option value="{{$course->id}}">{{$course->title}}</option>
+                    @foreach ($courses as $course)
+                        <option style="background-color:{{$course->level->color}};color:white" value="{{$course->id}}">{{$course->title}}</option>
                     @endforeach
                 </select>
             </div>
@@ -146,11 +146,13 @@
 
 <script>
     var courses=`{!!json_encode(App\Course::all())!!}`;
+    var levels=`{!!json_encode(App\Level::all())!!}`;
     var student_per_course=`{!!json_encode($student_per_course)!!}`;
     var teacher_per_course=`{!!json_encode($teacher_per_course)!!}`;
     courses=JSON.parse(courses);
     student_per_course=JSON.parse(student_per_course);
     teacher_per_course=JSON.parse(teacher_per_course);
+    levels=JSON.parse(levels);
     var routine_row;
     var edit_slot;
     function addDay(){
@@ -173,6 +175,7 @@
     }
     function addSlot(obj){
         routine_row= $(obj).closest(".routine_row");
+        filterOptionForAdd();
     }
     function editSlot(obj){
         edit_slot= $(obj).closest(".time_slot");
@@ -182,6 +185,7 @@
         $("#edit_slot_starts").val(data["starts"]);
         $("#edit_slot_ends").val(data["ends"]);
         $("#edit_slot_courses").val(data["courses"]);
+        filterOptionForEdit(data["courses"]);
     }
     function saveSlot(){
        var slots= $(routine_row).find(".time_slots");
@@ -201,7 +205,7 @@
        for(course of course_arr){
            var st_count=getNumberOfStudentPerCourse(course["id"]);
            total_students+=parseInt(st_count);
-        course_list_html+=`<li class="list-group-item">`+course["course_code"]+` - `+course["title"]+` `+getCourseTeachers(course["id"])+` -`+st_count+`</li>`;
+        course_list_html+=`<li style='background-color:`+getColor(course['level_id'])+`' class="list-group-item">`+course["course_code"]+` - `+course["title"]+` `+getCourseTeachers(course["id"])+` -`+st_count+`</li>`;
        }
     //    console.log(course_list_html);
        $(slots).append(`
@@ -246,7 +250,7 @@
        for(course of course_arr){
         var st_count=getNumberOfStudentPerCourse(course["id"]);
         total_students+=parseInt(st_count);
-        course_list_html+=`<li class="list-group-item">`+course["course_code"]+` - `+course["title"]+` `+getCourseTeachers(course["id"])+` -`+st_count+`</li>`;
+        course_list_html+=`<li style='background-color:`+getColor(course['level_id'])+`' class="list-group-item">`+course["course_code"]+` - `+course["title"]+` `+getCourseTeachers(course["id"])+` -`+st_count+`</li>`;
        }
     //    console.log(course_list_html);
     //    $(editSlot).empty();
@@ -309,9 +313,9 @@
     function routineJSON(){
         var routine=[];
         var routine_rows= $(".routine_row");
-        for(routine_row of routine_rows){
-            var routine_date=$($(routine_row).find(".routine_date")[0]).val();
-            var sls=$(routine_row).find(".time_slot");
+        for(rr of routine_rows){
+            var routine_date=$($(rr).find(".routine_date")[0]).val();
+            var sls=$(rr).find(".time_slot");
             var slot_data_array=[];
             for(sl of sls){
                 slot_data_array.push($(sl).data("slot"));
@@ -326,6 +330,53 @@
     function save(){
         $("#save_data").val(routineJSON());
         $("#saveForm").submit();
+    }
+    function getColor(level_id){
+        for(level of levels){
+            if(level_id==level['id']){
+                return level['color'];
+            }
+        }
+        return 'white';
+    }
+    function routineCourses(){
+        routine=JSON.parse(routineJSON());
+        var course_ids=[]
+        for(day of routine){
+            for(slot of day.slots){
+                for(course_id of slot.courses){
+                    course_ids.push(course_id);
+                }
+            }
+        }
+        return course_ids;
+    }
+    function filterOptionForAdd(){
+        cs=routineCourses();
+        for(opt of $('#slot_courses').children()){
+            opt= $(opt);
+            if(cs.includes(opt.val())){
+                opt.hide();
+            }else{
+                opt.show();
+            }
+        }
+    }
+    function filterOptionForEdit(ids){
+        cs=routineCourses();
+        for(opt of $('#edit_slot_courses').children()){
+            opt= $(opt);
+            if(ids.includes(opt.val())){
+                opt.show();
+                continue;
+            }
+            console.log("ids");
+            if(cs.includes(opt.val())){
+                opt.hide();
+            }else{
+                opt.show();
+            }
+        }
     }
 </script>
 @endsection
