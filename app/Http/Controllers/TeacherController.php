@@ -12,7 +12,7 @@ class TeacherController extends Controller
     public function index(){
         $data=[];
         $data['user_type']="Teachers";
-        $data['users']=Teacher::all();
+        $data['users']=Teacher::latest()->paginate(15);
         return view("admin.users",compact('data'));
     }
     public function add(){

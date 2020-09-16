@@ -9,7 +9,7 @@ use App\CourseTeacher;
 class SemesterController extends Controller
 {
     public function index(){
-        $semesters=Semester::all();
+        $semesters=Semester::latest()->paginate(15);
         return view('admin.semesters',compact('semesters'));
     }
     public function add(){

@@ -7,7 +7,7 @@ use App\Notice;
 class NoticeController extends Controller
 {
     public function  index(){
-        $notices=Notice::all();
+        $notices=Notice::latest()->paginate(15);
         return view('notice',compact('notices'));
     }
     public function details($id){

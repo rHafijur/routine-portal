@@ -35,6 +35,7 @@
                         
                       </tbody>
                     </table>
+                    {{$semesters->links()}}
                 </div>
             </div>
         </div>

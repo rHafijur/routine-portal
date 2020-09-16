@@ -18,6 +18,7 @@
                         </tr>
                         @endforeach
                     </table>
+                    {{ $notifications->links() }}
                 </div>
             </div>
         </div>

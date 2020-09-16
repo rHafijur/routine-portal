@@ -11,7 +11,7 @@ class StudentController extends Controller
     public function index(){
         $data=[];
         $data['user_type']="Student";
-        $data['users']=Student::all();
+        $data['users']=Student::latest()->paginate(15);
         // dd($data['users'][0]->user->name);
         return view("admin.users",compact('data'));
     }
