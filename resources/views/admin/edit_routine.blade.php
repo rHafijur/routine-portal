@@ -205,7 +205,7 @@
 
 
 <script>
-    var courses=`{!!json_encode(App\Course::all())!!}`;
+    var courses=`{!!json_encode($courses)!!}`;
     var levels=`{!!json_encode(App\Level::all())!!}`;
     var student_per_course=`{!!json_encode($student_per_course)!!}`;
     var teacher_per_course=`{!!json_encode($teacher_per_course)!!}`;
@@ -389,6 +389,11 @@
         return JSON.stringify(routine);
     }
     function save(){
+        var count= courses.length - routineCourses().length;
+        if(count>0){
+            alert("You Still have "+count+" course(s) to add. You must have to add the course to the routine.");
+            return;
+        }
         $("#save_data").val(routineJSON());
         $("#saveForm").submit();
     }
