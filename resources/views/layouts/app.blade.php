@@ -46,10 +46,10 @@
                         </li>
                         @endif
                         @endauth
-                        <li class="nav-item">
+                        <li class="nav-item @if(request()->segment(1)=='notices') active @endif">
                             <a class="nav-link" href="{{ route('notices') }}">{{ __('Notices') }}</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if(request()->segment(1)=='routine') active @endif">
                             <a class="nav-link" href="#" data-toggle="modal" data-target="#routineSelectionModal">{{ __('Routines') }}</a>
                         </li>
                     </ul>

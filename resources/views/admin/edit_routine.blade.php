@@ -14,15 +14,16 @@
                     <div class="row justify-content-md-center">
                         <div class="col">
                             <div id="routineRows">
+                                    @php
+                                        $inc=0;
+                                        $inc2=0;
+                                    @endphp
                                 @foreach (json_decode($routine->data) as $day)
                                 <div class="row border routine_row">
                                     <div class="col-md-2">
                                         <input class="form-control routine_date" value="{{$day->date}}" type="date">
                                     </div>
                                     <div class="time_slots col row">
-                                                @php
-                                                    $inc=0;
-                                                @endphp
                                         @foreach ($day->slots as $slot)
                                         <div class="card col time_slot" data-slot='{!!json_encode($slot)!!}'>
                                             <div class="card-header">
@@ -37,9 +38,6 @@
                                             </div>
                                             <div class="card-body" style="padding: 0">
                                                 <ul class="list-group">
-                                                    @php
-                                                        $inc2=0;
-                                                    @endphp
                                                     @foreach ($slot->courses as $course)
                                                     @php
                                                         $course=App\Course::find($course);

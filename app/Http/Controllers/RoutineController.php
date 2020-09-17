@@ -15,9 +15,9 @@ class RoutineController extends Controller
         $semester_id=$semester->id;
         $term=request()->term;
         if($term=="mid"){
-            $courses= $semester->courses()->where('has_mid',1)->get();
+            $courses= $semester->courses()->where('has_mid',1)->distinct()->get();
         }else{
-            $courses= $semester->courses()->where('has_final',1)->get();
+            $courses= $semester->courses()->where('has_final',1)->distinct()->get();
         }
         // $course_teacher=CourseTeacher::where("semester_id",)->get();
         $student_per_course=DB::table("course_teachers")->select(DB::raw('sum(number_of_students) as student_count, course_id'))->where('semester_id', '=', $semester_id)->groupBy('course_id')->get();
@@ -31,9 +31,9 @@ class RoutineController extends Controller
         $semester_id=$semester->id;
         $term=request()->term;
         if($term=="mid"){
-            $courses= $semester->courses()->where('has_mid',1)->get();
+            $courses= $semester->courses()->where('has_mid',1)->distinct()->get();
         }else{
-            $courses= $semester->courses()->where('has_final',1)->get();
+            $courses= $semester->courses()->where('has_final',1)->distinct()->get();
         }
         // $course_teacher=CourseTeacher::where("semester_id",)->get();
         $routine= Routine::where("semester_id",$semester->id)->where('term',$term)->first();
@@ -64,7 +64,9 @@ class RoutineController extends Controller
         // $semester_id=$semester->id;
         $term=request()->term;
         $routine= Routine::where("semester_id",$semester->id)->where('term',$term)->first();
-        // dd($routine);
+        if($routine==null){
+            return view('errors.routine');
+        }
         return view('routine',compact('semester','routine'));
     }
 }
