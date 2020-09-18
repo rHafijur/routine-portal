@@ -69,6 +69,11 @@ Route::middleware('auth','student')->group(function () {
     Route::post('/save_overlap_application', 'OverlapApplicationController@save')->name('save_overlap_application');
 });
 
+Route::middleware('auth','teacher')->group(function () {
+    Route::get('/overlap_requests', 'OverlapApplicationController@requests')->name('overlapRequest');
+    Route::get('/overlap_approve/{semester}/{term}/{course}', 'OverlapApplicationController@approve');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/overlap_application/{id}', 'OverlapApplicationController@view');
