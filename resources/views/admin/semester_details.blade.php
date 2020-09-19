@@ -18,6 +18,8 @@
                     @else
                     <a href="{{url("generate_routine/?semester=".$semester->semester_code."&term=final")}}"><button class="btn btn-sm btn-success">Generate Routine (Final)</button></a>
                     @endif
+                    <a href="{{url("overlap_approvals/?semester=".$semester->id."&term=mid")}}"><button class="btn btn-sm btn-info">Overlap Approvals (MID)</button></a>
+                    <a href="{{url("overlap_approvals/?semester=".$semester->id."&term=final")}}"><button class="btn btn-sm btn-info">Overlap Approvals (FINAL)</button></a>
                   </div>
 
                 <div class="card-body">

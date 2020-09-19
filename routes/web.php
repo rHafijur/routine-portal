@@ -59,6 +59,9 @@ Route::middleware('auth','admin')->group(function () {
 
 
     Route::get('/user/toggol_admin/{id}', 'UserController@toggolAdmin');
+    Route::get('/overlap_approvals', 'OverlapCourseController@approvals');
+    Route::post('/assign_overlap_teacher', 'OverlapCourseController@assign')->name('assign_overlap_teacher');
+    Route::get('/unassign_overlap_teacher/{id}', 'OverlapCourseController@unassign')->name('unassign_overlap_teacher');
 });
 
 

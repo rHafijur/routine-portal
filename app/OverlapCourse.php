@@ -11,4 +11,8 @@ class OverlapCourse extends Model
     public function course(){
         return $this->belongsTo('App\Course');
     }
+    public function teacher()
+    {
+        return $this->belongsTo('App\Teacher');
+    }
 }

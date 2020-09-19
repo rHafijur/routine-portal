@@ -11,4 +11,10 @@ class Course extends Model
     public function level(){
         return $this->belongsTo("App\Level");
     }
+    public function overlapCourseApprovals(){
+        return $this->hasMany("App\OverlapCourseApproval");
+    }
+    public function overlapCourses(){
+        return $this->hasMany("App\OverlapCourse");
+    }
 }
