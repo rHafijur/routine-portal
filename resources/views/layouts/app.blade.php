@@ -52,9 +52,9 @@
                         <li class="nav-item @if(request()->segment(1)=='routine') active @endif">
                             <a class="nav-link" href="#" data-toggle="modal" data-target="#routineSelectionModal">{{ __('Routines') }}</a>
                         </li>
-                        <li class="nav-item @if(request()->segment(1)=='routine') active @endif">
+                        {{-- <li class="nav-item @if(request()->segment(1)=='routine') active @endif">
                             <a class="nav-link" href="#" data-toggle="modal" data-target="#overlapSelectionModal">{{ __('Overlap Requests') }}</a>
-                        </li>
+                        </li> --}}
                     </ul>
 
                     <!-- Right Side Of Navbar -->

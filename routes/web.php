@@ -37,7 +37,7 @@ Route::middleware('auth','admin')->group(function () {
     Route::post('/add/semester', 'SemesterController@save')->name('save_semester');
     Route::get('/semester/{id}/edit', 'SemesterController@edit');
     Route::post('/update/semester', 'SemesterController@update')->name('update_semester');
-    Route::get('/semester/{sid}/{cid}', 'SemesterController@details');
+    Route::get('/semester/{id}', 'SemesterController@details');
     
     Route::get('/courses', 'CourseController@index')->name('courses');
     Route::get('/add/course', 'CourseController@add');

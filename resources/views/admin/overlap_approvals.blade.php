@@ -2,7 +2,39 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              {{ __("Number of application per courses approved for Overlap Exam (".$semester->title." - ".$term.")") }}
+              {{-- <a href="{{url("add/notice")}}">
+                @if ($isAdmin)
+                <button class="btn btn-sm btn-secondary">Add</button>
+                @endif
+              </a> --}}
+            </div>
+            <div class="card-body">
+
+              <table class="table">
+                <tr>
+                  <th>Course</th>
+                  <th>Number of applications</th>
+                </tr>
+                @php
+                    $apps=App\OverlapApplication::where('semester_id',$semester->id)->where('term',$term)->where('c1_status',1)->where('c2_status',1);
+                @endphp
+                @foreach ($apps->select('c2_id',DB::raw("count(c2_id) as cnt"))->groupBy('c2_id')->get() as $ap)
+                    <tr>
+                      <td>{{$ap->c2->title}}</td>
+                      <td>{{$ap->cnt}}</td>
+                    </tr>
+                @endforeach
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center" style="margin-top: 10px">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -14,7 +46,7 @@
                   </a> --}}
                 </div>
                 <div class="card-body">
-                    <table class="table">
+                    {{-- <table class="table">
                       <thead>
                         <tr>
                             <th scope="col">Course</th>
@@ -60,6 +92,20 @@
                         @endforeach
                         
                       </tbody>
+                    </table> --}}
+                    <table class="table">
+                      <tr>
+                        <th>Applicant</th>
+                        <th>Exam during Scheduled time</th>
+                        <th>Exam during Overlap exam</th>
+                      </tr>
+                      @foreach (App\OverlapApplication::where('semester_id',$semester->id)->where('term',$term)->where('c1_status',1)->where('c2_status',1)->get() as $ap)
+                          <tr>
+                            <td>{{$ap->student->user->name}}</td>
+                            <td>{{$ap->c1->title}} <small>({{$ap->c1_teacher->user->name}})</small></td>
+                            <td>{{$ap->c2->title}} <small>({{$ap->c1_teacher->user->name}})</small></td>
+                          </tr>
+                      @endforeach
                     </table>
                 </div>
             </div>
