@@ -59,7 +59,7 @@
                                         @elseif($application->c1_status==1)
                                         <button class="btn btn-success btn-sm" disabled>Approved</button>
                                         @elseif($application->c1_status== -1)
-                                        <button class="btn btn-danger btn-sm" disabled>Regected</button>
+                                        <button class="btn btn-danger btn-sm" disabled>Rejected</button>
                                         @endif
                             </td>
                             <td>
@@ -74,7 +74,7 @@
                                         @elseif($application->c2_status==1)
                                         <button class="btn btn-success btn-sm" disabled>Approved</button>
                                         @elseif($application->c2_status== -1)
-                                        <button class="btn btn-danger btn-sm" disabled>Regected</button>
+                                        <button class="btn btn-danger btn-sm" disabled>Rejected</button>
                                         @endif
                             </td>
                         </tr>
