@@ -21,6 +21,9 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index');
+Route::get('/ajax/get_course_teachers/{sid}/{cid}', 'CourseTeacherController@getCourseTeacher');
+Route::get('/ajax/get_courses/{sid}', 'CourseTeacherController@getCourses');
+Route::get('/ajax/get_same_slot_courses/{sid}/{term}/{cid}', 'RoutineController@getSlotCourses');
 
 Route::middleware('auth','admin')->group(function () {
     Route::get('/users/students', 'StudentController@index')->name('all_students');
@@ -34,7 +37,7 @@ Route::middleware('auth','admin')->group(function () {
     Route::post('/add/semester', 'SemesterController@save')->name('save_semester');
     Route::get('/semester/{id}/edit', 'SemesterController@edit');
     Route::post('/update/semester', 'SemesterController@update')->name('update_semester');
-    Route::get('/semester/{id}', 'SemesterController@details');
+    Route::get('/semester/{sid}/{cid}', 'SemesterController@details');
     
     Route::get('/courses', 'CourseController@index')->name('courses');
     Route::get('/add/course', 'CourseController@add');
@@ -74,7 +77,9 @@ Route::middleware('auth','student')->group(function () {
 
 Route::middleware('auth','teacher')->group(function () {
     Route::get('/overlap_requests', 'OverlapApplicationController@requests')->name('overlapRequest');
-    Route::get('/overlap_approve/{semester}/{term}/{course}', 'OverlapApplicationController@approve');
+    // Route::get('/overlap_approve/{semester}/{term}/{course}', 'OverlapApplicationController@approve');
+    Route::get('/overlap_approve/{aid}/{c}', 'OverlapApplicationController@approve');
+    Route::get('/overlap_reject/{aid}/{c}', 'OverlapApplicationController@reject');
 });
 
 

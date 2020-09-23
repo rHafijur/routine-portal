@@ -69,4 +69,27 @@ class RoutineController extends Controller
         }
         return view('routine',compact('semester','routine'));
     }
+    public function getSlotCourses($sid,$term,$cid){
+        $_slot=[];
+        $routine= Routine::where("semester_id",$sid)->where('term',$term)->first();
+        foreach(json_decode($routine->data) as $date){
+            foreach($date->slots as $slot){
+                // dump($slot->courses);
+                foreach($slot->courses as $course){
+                    if($course==$cid){
+                        $_slot=$slot->courses;
+                    break;
+                    }
+                }
+            }
+        }
+        $courses=[];
+        foreach($_slot as $c){
+            if($cid==$c){
+                continue;
+            }
+            $courses[]=Course::find($c);
+        }
+        return $courses;
+    }
 }

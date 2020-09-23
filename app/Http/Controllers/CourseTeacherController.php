@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\CourseTeacher;
+use App\Semester;
 class CourseTeacherController extends Controller
 {
     public function save(Request $request){
@@ -45,5 +46,13 @@ class CourseTeacherController extends Controller
     public function delete($id){
         CourseTeacher::find($id)->delete();
         return redirect()->back();
+    }
+    public function getCourseTeacher($sid,$cid){
+       $courses=  CourseTeacher::where('semester_id',$sid)->where('course_id',$cid)->get();
+       return $courses;
+    }
+    public function getCourses($sid){
+       $courses=  Semester::find($sid)->courses()->select('courses.id','course_code','title')->distinct()->get();
+       return $courses;
     }
 }
