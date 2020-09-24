@@ -21,11 +21,11 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    {{ __("Routine: ".$semester->title." ".strtoupper($routine->term)) }}
+                    {{ __("Overlap Routine: ".$semester->title." ".strtoupper($routine->term)) }}
                     @auth
                     @if (auth()->user()->isAdmin())
                     <div class="float-right">
-                        <a href="{{url('edit_routine/?semester='.$semester->semester_code."&term=".$routine->term)}}"><button class="btn btn-info">Edit</button></a>
+                        <a href="{{url('edit_overlap_routine/?semester='.$semester->semester_code."&term=".$routine->term)}}"><button class="btn btn-info">Edit</button></a>
                     </div>
                     @endif
                     @endauth
@@ -42,7 +42,7 @@
                                     Daffodil International University <br>
                                     Department of software Engineering (SWE) <br>
                                     Faculty of Science & Information Technology (FSIT) <br>
-                                    {{ __("Exam ".$semester->title." ".strtoupper($routine->term)) }}
+                                    {{ __("Overlap Exam ".$semester->title." ".strtoupper($routine->term)) }}
                                    </div>
                                 </div>
                             </div>
@@ -69,8 +69,10 @@
                                                 @foreach ($slot->courses as $course)
                                                     @php
                                                         $course=App\Course::find($course);
+                                                        $cnt=App\OverlapApplication::where('semester_id',$semester->id)->where('term',$routine->term)->where('c1_status',1)->where('c2_status',1)->where('c2_id',$course->id)->select(DB::raw("count(c2_id) as student_count, c2_id as course_id"))->groupBy('course_id')->first();
+                                                        // dump($cnt);
                                                     @endphp
-                                                    <li class="list-group-item">{{$course->course_code}} - {{$course->title}} </li>
+                                                    <li class="list-group-item">{{$course->course_code}} - {{$course->title}} <small>({{$cnt->student_count}} person)</small></li>
                                                 @endforeach
                                             </ul>
                                         </div>

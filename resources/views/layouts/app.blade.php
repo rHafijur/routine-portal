@@ -52,6 +52,9 @@
                         <li class="nav-item @if(request()->segment(1)=='routine') active @endif">
                             <a class="nav-link" href="#" data-toggle="modal" data-target="#routineSelectionModal">{{ __('Routines') }}</a>
                         </li>
+                        <li class="nav-item @if(request()->segment(1)=='overlap_routine') active @endif">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#overlapRoutineSelectionModal">{{ __('Overlap Routines') }}</a>
+                        </li>
                         {{-- <li class="nav-item @if(request()->segment(1)=='routine') active @endif">
                             <a class="nav-link" href="#" data-toggle="modal" data-target="#overlapSelectionModal">{{ __('Overlap Requests') }}</a>
                         </li> --}}
@@ -78,6 +81,9 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ url('notifications') }}">
                                         {{ __('Notifications') }} ({{Auth::user()->notification()->where('is_seen',0)->get()->count()}})
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('change_password') }}">
+                                        {{ __('Change Password') }}
                                     </a>
                                     <a class="dropdown-item" href="#"
                                        onclick="event.preventDefault();
@@ -107,6 +113,45 @@
         <form method="GET" action="{{url("routine")}}">
         <div class="modal-header">
           <h5 class="modal-title" id="routineSelectionModalLabel">Please choice Semester and Term</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <div class="row">
+                  <div class="col">
+                    <select name="semester" class="form-control">
+                        <option value="">Select Semester</option>
+                        @foreach (App\Semester::all() as $semester)
+                            <option value="{{$semester->semester_code}}">{{$semester->title}}</option>
+                        @endforeach
+                    </select>
+                  </div>
+                  <div class="col">
+                    <select name="term" class="form-control">
+                        <option value="">Select Term</option>
+                        <option value="mid">Mid Term</option>
+                        <option value="final">Final</option>
+                    </select>
+                  </div>
+                </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">View Routine</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="overlapRoutineSelectionModal" tabindex="-1" aria-labelledby="overlapRoutineSelectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="GET" action="{{url("overlap_routine")}}">
+        <div class="modal-header">
+          <h5 class="modal-title" id="overlapRoutineSelectionModalLabel">Please choice Semester and Term</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

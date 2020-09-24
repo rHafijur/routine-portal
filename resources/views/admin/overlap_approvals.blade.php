@@ -7,6 +7,11 @@
         <div class="card">
             <div class="card-header">
               {{ __("Number of application per courses approved for Overlap Exam (".$semester->title." - ".$term.")") }}
+              @if (count(App\OverlapRoutine::where('semester_id',$semester->id)->where('term',$term)->get())>0)
+                <a href="{{url("overlap_routine/?semester=".$semester->semester_code."&term=".$term)}}"><button class="btn btn-sm btn-info">View Overlap Routine</button></a>
+              @else
+                <a href="{{url("generate_overlap_routine/?semester=".$semester->semester_code."&term=".$term)}}"><button class="btn btn-sm btn-success">Generate Routine (Mid Term)</button></a>
+              @endif
               {{-- <a href="{{url("add/notice")}}">
                 @if ($isAdmin)
                 <button class="btn btn-sm btn-secondary">Add</button>

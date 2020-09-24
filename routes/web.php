@@ -61,6 +61,11 @@ Route::middleware('auth','admin')->group(function () {
     Route::get('/edit_routine/', 'RoutineController@edit');
     Route::post('/save_routine', 'RoutineController@save')->name('save_routine');
     Route::post('/update_routine', 'RoutineController@update')->name('update_routine');
+    
+    Route::get('/generate_overlap_routine', 'OverlapRoutineController@generate')->name('generate_overlap_routine');
+    Route::get('/edit_overlap_routine/', 'OverlapRoutineController@edit');
+    Route::post('/save_overlap_routine', 'OverlapRoutineController@save')->name('save_overlap_routine');
+    Route::post('/update_overlap_routine', 'OverlapRoutineController@update')->name('update_overlap_routine');
 
 
     Route::get('/user/toggol_admin/{id}', 'UserController@toggolAdmin');
@@ -88,9 +93,12 @@ Route::middleware('auth','teacher')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/overlap_application/{id}', 'OverlapApplicationController@view');
     Route::get('/notifications', 'NotificationController@index');
+    Route::get('/change_password', 'UserController@changePassword')->name('change_password');
+    Route::post('/update_password', 'UserController@updatePassword')->name('update_password');
 });
 
 //public
 Route::get('/notices', 'NoticeController@index')->name('notices');
 Route::get('/notice/{id}', 'NoticeController@details');
 Route::get('/routine', 'RoutineController@view'); 
+Route::get('/overlap_routine', 'OverlapRoutineController@view'); 
