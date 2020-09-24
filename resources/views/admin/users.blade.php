@@ -81,6 +81,7 @@
                               @else
                               <a href="{{url("/user/toggol_admin/".$teacher->user->id)}}"><button class="btn btn-sm btn-info">Make Admin</button></a>
                               @endif
+                              <a href="{{url("/teacher/edit/".$teacher->user->id)}}"><button class="btn btn-sm btn-warning">Edit</button></a>
                           </td>
                         </tr>
                         @endforeach

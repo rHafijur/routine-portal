@@ -31,6 +31,8 @@ Route::middleware('auth','admin')->group(function () {
     Route::get('/user/{id}/set_stat/{status}', 'UserController@setStat');
     Route::get('/add/teacher', 'TeacherController@add');
     Route::post('/add/teacher', 'TeacherController@register')->name('register_teacher');
+    Route::get('/teacher/edit/{id}', 'TeacherController@edit');
+    Route::post('/teacher/update', 'TeacherController@update')->name('update_teacher');
     
     Route::get('/semesters', 'SemesterController@index')->name('semesters');
     Route::get('/add/semester', 'SemesterController@add');

@@ -18,6 +18,11 @@ class TeacherController extends Controller
     public function add(){
         return view("admin.add_teacher");
     }
+    public function edit($id){
+        // dd($id);
+        $user=User::findOrFail($id);
+        return view("admin.edit_teacher",compact('user'));
+    }
     public function register(Request $request){
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -39,6 +44,26 @@ class TeacherController extends Controller
             'initial'=>$request->initial,
         ]);
         $user->privileges()->attach(2);
+        return redirect()->route('all_teachers');
+        // return view("admin.add_teacher");
+    }
+    public function update(Request $request){
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
+            'initial' => ['required', 'string', 'max:25'],
+            'employee_id' => ['required', 'string', 'max:25'],
+            'email' => ['required', 'string', 'email', 'max:255', 'regex:/(.*)@diu\.edu\.bd/i'],
+        ]);
+        $user=User::findOrFail($request->id);
+            $user->name= $request->name;
+            $user->phone= $request->phone;
+            $user->email= $request->email;
+            $user->save();
+        $teacher=$user->teacher;
+        $teacher->employee_id=$request->employee_id;
+        $teacher->initial=$request->initial;
+        $teacher->save();
         return redirect()->route('all_teachers');
         // return view("admin.add_teacher");
     }
